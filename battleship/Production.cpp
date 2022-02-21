@@ -49,7 +49,7 @@ bool Production::prod(int argc, char* argv[])
 				else
 				{
 					whoGoesFirst = (bool)strtol(argv[i], NULL, 10);
-					printf("result of who goes first was was %d.\n", whoGoesFirst);
+					printf("result of who goes first was was player %d.\n", whoGoesFirst);
 					fflush(stdout);
 				}
 				break;
@@ -67,21 +67,21 @@ bool Production::prod(int argc, char* argv[])
 		//be the Battleship agent
 		bool whoseTurn = whoGoesFirst;
 		//Create the seas
-		Seas* Cs = new Seas();
-		//create the fleets
-		Fleets* fleets = new Fleets();
+		sea = new Seas();
+		//create the fleet
+		fleet = new Fleets();
 		//get the ships placed, both human and computer
 		bool humanPlacing = getYesNo("Do you want to place your own ships");
 		if(humanPlacing)
 		{
-			getHumanSetup(Cs, fleets);
+			getHumanSetup(sea, fleet);
 		}
 		else
 		{
-			doPlacingForHuman(Cs, fleets);
+			doPlacingForHuman(sea, fleet);
 		}
 		//display before each turn
-		Cs->displaySeas();
+		sea->displaySeas();
 		//commence taking turns -- sounds like a while loop, because thi game is guaranteed to end
 		bool done = false;
 		while(!done) //take turns
@@ -95,8 +95,8 @@ bool Production::prod(int argc, char* argv[])
 				pP->row = 0;//whatever the user said
 				pP->col = 0;//whatever the user said
 				//tell the seas about the coordinates
-				Cs->takeCoordinates(pP);
-				//Pair* newP = Cs->getCoordinates();
+				sea->takeCoordinates(pP);
+				//Pair* newP = sea->getCoordinates();
 				//find out whether any ship was sunk
 				//find out whether the computer has now lost
 				//if so, done
@@ -158,7 +158,7 @@ void Production::getHumanSetup(Seas* Cs, Fleets* fleets)
 		scanf("%d", &col);
 		puts("Give the row");
 		scanf("%d", &row);
-		//set as many columns eastward for the size of a battleship
+		//TODO set as many columns eastward for the size of a battleship
 	}
 	else
 	{
@@ -166,7 +166,7 @@ void Production::getHumanSetup(Seas* Cs, Fleets* fleets)
 		scanf("%d", &row);
 		puts("Give the column");
 		scanf("%d", &col);
-		//set as many rows southward for the size of a battleship
+		//TODO set as many rows southward for the size of a battleship
 	}
 	Cs->displaySeas();
 

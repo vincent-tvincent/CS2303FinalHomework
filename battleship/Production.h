@@ -33,7 +33,8 @@ public:
 
 private:
 	void showMax();
-
+    Fleets* fleet;
+    Seas* sea;
 };
 
 #endif /* PRODUCTION_H_ */
