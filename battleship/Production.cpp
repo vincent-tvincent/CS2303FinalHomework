@@ -8,6 +8,9 @@
 #include "Production.h"
 
 Production::Production() {
+    HumanFirst = true;
+    sea = new Seas();
+    fleet = new Fleets();
 }
 
 Production::~Production() {
@@ -16,8 +19,6 @@ Production::~Production() {
 bool Production::prod(int argc, char* argv[])
 {
 	bool answer = true;
-	bool whoGoesFirst = true;
-
 	if(argc <=1) //no interesting information
 	{
 		puts("Usage: Didn't find any arguments.");
@@ -28,12 +29,10 @@ bool Production::prod(int argc, char* argv[])
 	{
 		printf("Found %d interesting arguments.\n", argc-1);
 		fflush(stdout);
-
-
 		for(int i = 1; i<argc; i++) //don't want to read argv[0]
 		{//argv[i] is a string
 			//in this program our arguments are NR, NC, gens, filename, print and pause
-			//because pause is optional, argc could be 6 or 7
+			//because pause is optional, argc cou ld be 6 or 7
 			//because print is optional (if print is not present, neither is pause) argc could be 5
 			switch(i)
 			{
@@ -48,8 +47,8 @@ bool Production::prod(int argc, char* argv[])
 				}
 				else
 				{
-					whoGoesFirst = (bool)strtol(argv[i], NULL, 10);
-					printf("result of who goes first was was player %d.\n", whoGoesFirst);
+					HumanFirst = (bool)strtol(argv[i], NULL, 10);
+					printf("result of who goes first was was player %d.\n", HumanFirst);
 					fflush(stdout);
 				}
 				break;
@@ -63,13 +62,6 @@ bool Production::prod(int argc, char* argv[])
 		}//end of for loop on argument count
 		puts("after reading arguments"); fflush(stdout);
 
-
-		//be the Battleship agent
-		bool whoseTurn = whoGoesFirst;
-		//Create the seas
-		sea = new Seas();
-		//create the fleet
-		fleet = new Fleets();
 		//get the ships placed, both human and computer
 		bool humanPlacing = getYesNo("Do you want to place your own ships");
 		if(humanPlacing)
@@ -78,7 +70,7 @@ bool Production::prod(int argc, char* argv[])
 		}
 		else
 		{
-			doPlacingForHuman(sea, fleet);
+            doAutoPlacing(sea,false ,fleet);
 		}
 		//display before each turn
 		sea->displaySeas();
@@ -86,7 +78,7 @@ bool Production::prod(int argc, char* argv[])
 		bool done = false;
 		while(!done) //take turns
 		{
-			if(whoseTurn) //human?
+			if(HumanFirst) //human?
 			{
 				Pair* pP = new Pair();
 				//ask the user for coordinates
@@ -113,7 +105,7 @@ bool Production::prod(int argc, char* argv[])
 				//if so, done
 				done=true;
 			}
-			whoseTurn = !whoseTurn;
+            HumanFirst = !HumanFirst;
 
 		}//now done
 
@@ -123,7 +115,7 @@ bool Production::prod(int argc, char* argv[])
 
 	}//end of else we have good arguments
 
-	return whoGoesFirst;
+	return HumanFirst;
 }
 
 bool Production::getYesNo(char* query)
@@ -172,7 +164,7 @@ void Production::getHumanSetup(Seas* Cs, Fleets* fleets)
 
 }
 //TODO doPlacingForHuman
-void Production::doPlacingForHuman(Seas* Cs, Fleets* fleets)
+void Production::doAutoPlacing(Seas* Cs,bool isPlayer, Fleets* fleets)
 {
 
 }

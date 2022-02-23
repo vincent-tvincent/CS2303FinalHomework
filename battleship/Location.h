@@ -21,7 +21,7 @@ public:
 	virtual ~Location();
     char getSymbol();
     void setSymbol(char s);
-
+    void getShort();
 private:
 	bool waterOrNot;
 	ShipType x;  //NULL if water

@@ -28,13 +28,16 @@ public:
 	bool prod(int argc, char* argv[]);
 
 	bool getYesNo(char* query);
+	void placing(Fleets*,bool isPlayer,bool isHorizontal,char type,int row,int col);
 	void getHumanSetup(Seas* Cs, Fleets* fleets);
-	void doPlacingForHuman(Seas* Cs, Fleets* fleets);
+	void doAutoPlacing(Seas* Cs,bool isPlayer, Fleets* fleets);
+
 
 private:
 	void showMax();
     Fleets* fleet;
     Seas* sea;
+    bool HumanFirst;
 };
 
 #endif /* PRODUCTION_H_ */

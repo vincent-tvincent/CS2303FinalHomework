@@ -5,14 +5,13 @@
  *      Author: theresesmith
  */
 
-#ifndef FLEETS_H_
+#ifndef FLEETS_H_`
 #define FLEETS_H_
 
 #include <stdio.h>
 
 typedef enum
 {
-    EMPTY,
 	CARRIER,
 	SUBMARINE,
 	BATTLESHIP,

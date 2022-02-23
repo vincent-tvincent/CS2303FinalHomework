@@ -9,7 +9,7 @@
 
 Location::Location() {
 	waterOrNot = true;
-    x = EMPTY;  //NULL if water
+    //x = EMPTY;  //NULL if water
     hasBeenShot = false;
    symbol = '~';
 }
@@ -24,4 +24,8 @@ char Location::getSymbol()
 void Location::setSymbol(char s)
 {
 	symbol = s;
+}
+
+void getShot(){
+
 }
