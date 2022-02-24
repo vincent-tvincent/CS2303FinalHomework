@@ -6,15 +6,15 @@
  */
 
 #include "Location.h"
-
 Location::Location() {
 	waterOrNot = true;
-    //x = EMPTY;  //NULL if water
+    type = EMPTY;
     hasBeenShot = false;
    symbol = '~';
 }
 
 Location::~Location() {
+
 }
 
 char Location::getSymbol()
@@ -26,6 +26,9 @@ void Location::setSymbol(char s)
 	symbol = s;
 }
 
-void getShot(){
-
+void Location:: getShot(){
+    hasBeenShot = true;
+    if(symbol == '~'){
+        symbol = 'X';
+    }
 }

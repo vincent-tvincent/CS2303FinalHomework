@@ -12,19 +12,20 @@
 
 typedef enum
 {
+    EMPTY,
 	CARRIER,
 	SUBMARINE,
 	BATTLESHIP,
 	CRUISER,
 	DESTROYER
-}ShipType;
+}Type;
 
 class Fleets {
 public:
 	Fleets();
 	virtual ~Fleets();
 	int getHowManyCarriers(bool player);
-	void sink(bool player, ShipType s);
+	void sink(bool player, Type s);
 
 
 private:

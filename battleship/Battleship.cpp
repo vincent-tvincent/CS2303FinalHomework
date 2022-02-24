@@ -6,9 +6,10 @@
  */
 
 #include "Battleship.h"
-
-Battleship::Battleship(ShipType type) {
-   switch(type) {
+Battleship::Battleship(Type Type) {
+   switch(Type) {
+       Location();
+       type = Type;
        case CARRIER:
            compartments = 5;
            symbol = 'A';
@@ -30,14 +31,48 @@ Battleship::Battleship(ShipType type) {
            symbol = 'D';
            break;
        default:
-           compartments = NULL;
-           symbol = NULL;
+           compartments = 1;
+           symbol = '~';
            break;
    }
-   isSink = true;
+   shipBody = new linkedList<Battleship>();
+   start = shipBody;
+   unchecked = true;
+}
+Battleship:: Battleship(Type type, linkedList<Battleship> start){
+
 }
 Battleship::~Battleship() {
 }
+
+bool Battleship:: ifSink(){
+    bool Sink = hasBeenShot;//check
+    shipBody->unchecked = false; //marked as checked;
+    linkedList<Battleship>* nextBody = shipBody->next;
+    linkedList<Battleship>* previousBody = shipBody->previous;
+
+    //check forward
+    if(nextBody != nullptr && nextBody->unchecked){
+        Sink = Sink && nextBody->value->ifSink();
+    }
+
+    //check backward
+    if(previousBody != nullptr && previousBody->unchecked){
+        Sink = Sink && previousBody->value->ifSink();
+    }
+    unchecked = true;  //recover to unchecked for next time
+    return Sink;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

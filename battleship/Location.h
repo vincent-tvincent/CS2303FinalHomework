@@ -8,7 +8,7 @@
 #ifndef LOCATION_H_
 #define LOCATION_H_
 #include "Fleets.h"
-
+#include "string.h"
 typedef struct
 {
 	int row;
@@ -21,12 +21,13 @@ public:
 	virtual ~Location();
     char getSymbol();
     void setSymbol(char s);
-    void getShort();
+    void getShot();
 private:
 	bool waterOrNot;
-	ShipType x;  //NULL if water
-	bool hasBeenShot;
-	char symbol;
+protected:
+    bool hasBeenShot;
+    char symbol;
+    Type type;
 };
 
 #endif /* LOCATION_H_ */

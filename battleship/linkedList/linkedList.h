@@ -4,14 +4,17 @@
 
 #ifndef CS2303FINALHOMEWORK_LINKEDLIST_H
 #define CS2303FINALHOMEWORK_LINKEDLIST_H
-template<class T>
+
+template<typename T>
 class linkedList {
 public:
-    linkedList(T Value, linkedList Previous, linkedList Next);
-    T getValue();
+    linkedList(T* Value, linkedList* Previous, linkedList* Next);
+    linkedList();
+    virtual ~linkedList();
     linkedList* previous;
     linkedList* next;
     T* value;
+    bool unchecked;
 };
 
 #endif //CS2303FINALHOMEWORK_LINKEDLIST_H

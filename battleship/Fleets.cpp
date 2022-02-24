@@ -37,7 +37,7 @@ int Fleets::getHowManyCarriers(bool player)
 	}
 	return answer;
 }
-void Fleets::sink(bool player, ShipType s)
+void Fleets::sink(bool player, Type s)
 {
 	if(!player)
 	{

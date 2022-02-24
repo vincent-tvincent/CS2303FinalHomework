@@ -11,16 +11,20 @@
 #include "Location.h"
 #include "Fleets.h"
 #include "linkedList/linkedList.h"
-class Battleship{
+#include "Seas.h"
+class Battleship: Location{
 public:
-	Battleship(ShipType type);
+	Battleship(Type type);
+    Battleship(Type type, linkedList<Battleship> start);
 	virtual ~Battleship();
-    void sinkShip();
+    void placeShip(Seas sea);
+    bool ifSink();
+    bool unchecked;
 private:
-    ;
-    char symbol;
-    bool isSink;
 	int compartments;
-	linkedList<Location> shipBody;   
+    linkedList<Battleship>* start;
+    linkedList<Battleship>* shipBody;
+
 };
 #endif /* BATTLESHIP_H_ */
+

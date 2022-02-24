@@ -20,6 +20,7 @@ public:
 	void setSize(int);
 	void displaySeas();
 	void takeCoordinates(Pair* pP);
+    void placeShip(bool,Type);
 
 private:
 	int size;
