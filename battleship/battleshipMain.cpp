@@ -3,7 +3,9 @@
 //
 
 #include "battleshipMain.h"
+#include"Tests/testSea.h"
 int main(int argc, char* argv[]){
-    Production* test = new Production();
-    test->prod(argc,argv);
+    testSea* test = new testSea();
+    test->testPlaceShip();
+    return 0;
 }

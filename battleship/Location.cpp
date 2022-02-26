@@ -6,29 +6,46 @@
  */
 
 #include "Location.h"
-Location::Location() {
-	waterOrNot = true;
+Location::Location(Pair* Coordinate) {
+    coordinate = Coordinate;
+    waterOrNot = true;
     type = EMPTY;
     hasBeenShot = false;
-   symbol = '~';
+    symbol = '~';
+    actualSymbol = 'X';
 }
 
 Location::~Location() {
-
 }
 
 char Location::getSymbol()
 {
 	return symbol;
 }
+char Location:: getActualSymbol(){
+    if(!waterOrNot){
+        return actualSymbol;
+    }else{
+        return symbol;
+    }
+}
 void Location::setSymbol(char s)
 {
 	symbol = s;
 }
 
+Type Location:: getType(){
+    return type;
+}
+
+Pair* Location:: getCoordinate(){
+    return coordinate;
+}
 void Location:: getShot(){
     hasBeenShot = true;
-    if(symbol == '~'){
-        symbol = 'X';
-    }
+    symbol = actualSymbol;
+}
+
+bool Location:: isWater(){
+    return waterOrNot;
 }

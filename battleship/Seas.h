@@ -7,24 +7,29 @@
 
 #ifndef SEAS_H_
 #define SEAS_H_
-
-#include "Location.h"
+#include "GlobalTypes.h"
+#include "Battleship.h"
+#include "Fleets.h"
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <iostream>
 class Seas {
 public:
 	Seas();
 	virtual ~Seas();
 	int getSize();
-	void setSize(int);
-	void displaySeas();
+	void displaySeas(bool cheat);
+	void displayInfo();
 	void takeCoordinates(Pair* pP);
-    void placeShip(bool,Type);
-
+    void placeShip(int Player, bool ifHorizontal, Type shipType, Pair *coordinate);
+    void shot(int player,Pair* coordinate);
+    bool isEmpty(Pair* start,bool player,bool isHorizontal,int length);
+    Location** getPointer(Pair* coordinate,bool player);
 private:
-	int size;
-	Location** seasP;
+    Fleets* fleet;
+    int size;
+    Location** seasP;
+    int actualLocation(int player, Pair* coordinate);
 };
 
 #endif /* SEAS_H_ */

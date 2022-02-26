@@ -9,22 +9,23 @@
 #define LOCATION_H_
 #include "Fleets.h"
 #include "string.h"
-typedef struct
-{
-	int row;
-	int col;
-}Pair;
-
+#include "GlobalTypes.h"
 class Location {
 public:
-	Location();
+	Location(Pair* coordinate);
 	virtual ~Location();
     char getSymbol();
+    char getActualSymbol();
     void setSymbol(char s);
     void getShot();
+    bool isWater();
+    Type getType();
+    Pair* getCoordinate();
 private:
-	bool waterOrNot;
+	Pair* coordinate;
 protected:
+    bool waterOrNot;
+    char actualSymbol;
     bool hasBeenShot;
     char symbol;
     Type type;

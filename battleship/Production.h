@@ -11,31 +11,27 @@
 #include <stdbool.h>
 #include <string.h>//strncpy
 #include <stdlib.h>//strtol
-//#include "AdjMat.h"
-//#include "Room.h"
-//#include "../linkedList/Terminal.h"
-//#include "../linkedList/LinkedList.h"
 #include "Seas.h"
 #include "Fleets.h"
-
+#include "GlobalTypes.h"
 #include <stdio.h>
 #define FILENAMELENGTHALLOWANCE (50)
-
 class Production {
 public:
 	Production();
 	virtual ~Production();
 	bool prod(int argc, char* argv[]);
-
-	bool getYesNo(char* query);
+	bool getYesNo(char const* query);
 	void placing(Fleets*,bool isPlayer,bool isHorizontal,char type,int row,int col);
-	void getHumanSetup(Seas* Cs, Fleets* fleets);
-	void doAutoPlacing(Seas* Cs,bool isPlayer, Fleets* fleets);
-
-
+	void getHumanSetup(Seas* Cs);
+	void doAutoPlacing(Seas* Cs,bool player);
+    void runGame();
 private:
-	void showMax();
-    Fleets* fleet;
+    Type toType(char input);
+    int getCompartment(Type type);
+    Type randShipType();
+    void showMax();
+	void showShipAmount();
     Seas* sea;
     bool HumanFirst;
 };

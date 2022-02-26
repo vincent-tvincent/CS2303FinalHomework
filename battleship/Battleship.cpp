@@ -6,63 +6,67 @@
  */
 
 #include "Battleship.h"
-Battleship::Battleship(Type Type) {
-   switch(Type) {
-       Location();
-       type = Type;
-       case CARRIER:
-           compartments = 5;
-           symbol = 'A';
-           break;
-       case SUBMARINE:
-           compartments = 2;
-           symbol = 'S';
-           break;
-       case BATTLESHIP:
-           symbol = 'B';
-           compartments = 4;
-           break;
-       case CRUISER:
-           compartments = 3;
-           symbol = 'C';
-           break;
-       case DESTROYER:
-           compartments = 3;
-           symbol = 'D';
-           break;
-       default:
-           compartments = 1;
-           symbol = '~';
-           break;
-   }
-   shipBody = new linkedList<Battleship>();
-   start = shipBody;
-   unchecked = true;
+Battleship::Battleship( Type type, Pair* coordinate) : Location(coordinate) {
+    setType(type);
+    waterOrNot = false;
+    unchecked = true;
+    previous = nullptr;
+    next = nullptr;
 }
-Battleship:: Battleship(Type type, linkedList<Battleship> start){
 
-}
 Battleship::~Battleship() {
+}
+
+void Battleship::setType(Type t){
+    type = t;
+    switch(type) {
+        case CARRIER:
+            actualSymbol = 'A';
+            compartments = 5;
+            break;
+        case SUBMARINE:
+            actualSymbol = 'S';
+            compartments = 2;
+            break;
+        case BATTLESHIP:
+            actualSymbol = 'B';
+            compartments = 4;
+            break;
+        case CRUISER:
+            actualSymbol = 'C';
+            compartments = 3;
+            break;
+        case DESTROYER:
+            actualSymbol = 'D';
+            compartments = 3;
+            break;
+        default:
+            std::cout << "not a ship type" <<std::endl;
+            break;
+    }
+}
+
+int Battleship:: getCompartments(){
+    return compartments;
 }
 
 bool Battleship:: ifSink(){
     bool Sink = hasBeenShot;//check
-    shipBody->unchecked = false; //marked as checked;
-    linkedList<Battleship>* nextBody = shipBody->next;
-    linkedList<Battleship>* previousBody = shipBody->previous;
+    unchecked = false; //marked as checked;
 
     //check forward
-    if(nextBody != nullptr && nextBody->unchecked){
-        Sink = Sink && nextBody->value->ifSink();
+    if(next != nullptr && next->unchecked){
+        Sink = Sink && previous->ifSink();
     }
+    if(previous != nullptr && previous->unchecked){
+        //check backward
 
-    //check backward
-    if(previousBody != nullptr && previousBody->unchecked){
-        Sink = Sink && previousBody->value->ifSink();
+        Sink = Sink && previous->ifSink();
     }
     unchecked = true;  //recover to unchecked for next time
     return Sink;
 }
+
 
 
 

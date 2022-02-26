@@ -9,9 +9,9 @@
 #define TESTS_H_
 
 #include <stdio.h>
-#include "../Production.h"
-#include "../../linkedList/LinkedList.h"
-#include "../Fleets.h"
+#include "Production.h"
+#include "../linkedList/LinkedList.h"
+#include "Fleets.h"
 
 
 class Tests {
