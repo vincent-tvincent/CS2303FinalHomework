@@ -3,9 +3,12 @@
 //
 
 #include "battleshipMain.h"
-#include"Tests/testSea.h"
+#include "Battleship.h"
+#include "Tests/testSea.h"
+#include "GlobalTypes.h"
 int main(int argc, char* argv[]){
     testSea* test = new testSea();
-    test->testPlaceShip();
+    test->test();
     return 0;
+
 }

@@ -66,7 +66,7 @@ bool Fleets:: playerLost(bool player){
         target = player1ShipNum;
     }
     for(int i = 0; i < 5; i++){
-        if(!*(target + i)){
+        if(*(target + i)){
             return false;
         }
     }

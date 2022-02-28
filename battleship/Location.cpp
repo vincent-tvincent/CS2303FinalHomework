@@ -23,11 +23,7 @@ char Location::getSymbol()
 	return symbol;
 }
 char Location:: getActualSymbol(){
-    if(!waterOrNot){
-        return actualSymbol;
-    }else{
-        return symbol;
-    }
+    return actualSymbol;
 }
 void Location::setSymbol(char s)
 {

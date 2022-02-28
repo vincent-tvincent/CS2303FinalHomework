@@ -20,11 +20,11 @@ public:
 	int getSize();
 	void displaySeas(bool cheat);
 	void displayInfo();
-	void takeCoordinates(Pair* pP);
+	//void takeCoordinates(Pair* pP);
     void placeShip(int Player, bool ifHorizontal, Type shipType, Pair *coordinate);
     void shot(int player,Pair* coordinate);
     bool isEmpty(Pair* start,bool player,bool isHorizontal,int length);
-    Location** getPointer(Pair* coordinate,bool player);
+    Location** getPointer(bool player, Pair* coordinate);
 private:
     Fleets* fleet;
     int size;

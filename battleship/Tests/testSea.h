@@ -13,11 +13,11 @@ public:
     testSea();
     virtual ~testSea();
     bool test();
+    bool testGetPointer();
     bool testPlaceShip();
     bool testShot();
     bool testIsEmpty();
     bool testDisplaySeas();
-    bool testDisplayInfo();
 
 };
 

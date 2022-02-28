@@ -180,6 +180,7 @@ int Production:: getCompartment(Type type){
             std::cout << "not a ship type" << std::endl;
             break;
     }
+    return -1;
 }
 Type Production:: randShipType(){
     int choose = rand()%6;
@@ -194,6 +195,8 @@ Type Production:: randShipType(){
             return CRUISER;
         case 4:
             return DESTROYER;
+        default:
+            return EMPTY;
     }
 }
 void Production::getHumanSetup(Seas* Cs)

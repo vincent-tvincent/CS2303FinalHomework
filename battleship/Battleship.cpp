@@ -60,7 +60,6 @@ bool Battleship:: ifSink(){
     }
     if(previous != nullptr && previous->unchecked){
         //check backward
-
         Sink = Sink && previous->ifSink();
     }
     unchecked = true;  //recover to unchecked for next time
