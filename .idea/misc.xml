@@ -3,6 +3,10 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <excludeRoots>
+      <file path="$PROJECT_DIR$/adjMatrix source code" />
+      <file path="$PROJECT_DIR$/battleship" />
+      <file path="$PROJECT_DIR$/homework5" />
+      <file path="$PROJECT_DIR$/linkedList" />
       <file path="$PROJECT_DIR$/tests" />
     </excludeRoots>
   </component>

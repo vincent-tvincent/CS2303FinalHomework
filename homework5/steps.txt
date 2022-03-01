@@ -1,0 +1,7 @@
+1. read the file and print it
+2. read the file and save it in a data structure (from malloc)
+3.pass the data strucutre, by reference/pointer
+4. print it the receiving function
+5. now fill out the whole matrix
+6. print in console
+7. print in file

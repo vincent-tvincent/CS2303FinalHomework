@@ -1,0 +1,14 @@
+//
+// Created by vince on 2022/3/1.
+//
+
+#ifndef CS2303FINALHOMEWORK_ADJMATRIX_H
+#define CS2303FINALHOMEWORK_ADJMATRIX_H
+
+
+class adjmatrix {
+
+};
+
+
+#endif //CS2303FINALHOMEWORK_ADJMATRIX_H
