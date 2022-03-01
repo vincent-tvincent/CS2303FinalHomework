@@ -45,18 +45,15 @@ void Battleship::setType(Type t){
             break;
     }
 }
-
 int Battleship:: getCompartments(){
     return compartments;
 }
-
 bool Battleship:: ifSink(){
     bool Sink = hasBeenShot;//check
     unchecked = false; //marked as checked;
-
     //check forward
     if(next != nullptr && next->unchecked){
-        Sink = Sink && previous->ifSink();
+        Sink = Sink && next->ifSink();
     }
     if(previous != nullptr && previous->unchecked){
         //check backward

@@ -49,13 +49,22 @@ bool testBattleship:: testIfSink(){
     testObject1->previous=testObject0;
     testObject1->next=testObject2;
     testObject2->previous=testObject1;
-    bool notSink = testObject1->ifSink();
+    bool notSink0 = testObject0->ifSink();
+    puts("notSink0 finish");
+    bool notSink1 = testObject1->ifSink();
+    puts("notSink1 finish");
+    bool notSink2 = testObject2->ifSink();
+    puts("notSink2 finish");
     testObject0->getShot();
     testObject1->getShot();
     testObject2->getShot();
-    bool isSink = testObject1->ifSink();
-
-    ok = !notSink && isSink;
+    bool isSink0 = testObject0->ifSink();
+    puts("isSink0 finish");
+    bool isSink1 = testObject1->ifSink();
+    puts("isSink1 finish");
+    bool isSink2 = testObject2->ifSink();
+    puts("isSink2 finish");
+    ok = !notSink0 && !notSink1 && !notSink2 && isSink0 && isSink1 && isSink2;
     if(ok){
         puts("ifSink() pass the test");
     }else{

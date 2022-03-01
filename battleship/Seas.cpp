@@ -91,6 +91,7 @@ void Seas:: shotTo(int player, Pair* coordinate){
         sink = ((Battleship*) target)->ifSink();
     }
     if(sink){
+
         fleet->sinkShip(player,target->getType());
     }
 }

@@ -105,6 +105,7 @@ void Production:: runGame(){
                     puts("coordinate does not exist");
                 }else{
                     puts("launched");
+                    printf("target coordinate: %d, %d\n",target->row,target->col);
                     sea->shotTo(0,target);
                     keepRead = false;
                 }
@@ -117,6 +118,7 @@ void Production:: runGame(){
             Pair* target = new Pair;
             target->row = rand() % 10;
             target->col = rand() % 10;
+            printf("target coordinate: %d, %d\n",target->row,target->col);
             sea->shotTo(1,target);
         }
         HumanFirst = !HumanFirst;
