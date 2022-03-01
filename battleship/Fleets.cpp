@@ -35,6 +35,7 @@ int Fleets::getHowManyShips(bool player,Type shipType)
 }
 
 void Fleets:: addShip(bool player, Type shipType){
+    puts("    ship added to fleet");
     int index = shipType - 1;
     if(!player)
     {

@@ -101,6 +101,13 @@ bool testSea:: testDisplaySeas(){
     testPair->col = 3;
     testObject->placeShip(0,true,testType,testPair);
     testObject->placeShip(1,false,testType,testPair);
+    testObject->displaySeas(false);
+    puts("\ncheat on: \n");
+    testObject->displaySeas(true);
+    fflush(stdin);
+    char answer = ' ';
+    std::cout<<"is it displayed as expected? (y for Yes): " << scanf("%c",&answer) <<std::endl;
+    ok = answer == 'y';
     if(ok){
         puts("displaySeas() pass the test");
     }else{

@@ -22,13 +22,13 @@ bool Production::prod(int argc, char* argv[])
 	bool answer = true;
 	if(argc < 2) //no interesting information
 	{
-		puts("Usage: Didn't find any arguments.");
+		puts("place provide command line argument");
 		fflush(stdout);
 		answer = false;
 	}
 	else //there is interesting information
     {
-        printf("Found %d interesting arguments.\n", argc - 1);
+        printf("command line argument received\n", argc - 1);
         fflush(stdout);
         for (int i = 1; i < argc; i++) //don't want to read argv[0]
         {//argv[i] is a string
@@ -66,7 +66,7 @@ bool Production::prod(int argc, char* argv[])
         if (humanPlacing) {
             getHumanSetup(sea);
         } else {
-            doAutoPlacing(sea, false);
+            doAutoPlacing(sea, 1);
         }
         //display before each turn
         std::cout << "Game is ready for start" << std::endl;
@@ -159,7 +159,7 @@ Type Production:: toType(char input) {
             result = DESTROYER;
             break;
         default:
-            std::cout << "not a ship type" << std::endl;
+            puts("not a shipType");
             break;
     }
     return result;
@@ -168,13 +168,13 @@ int Production:: getCompartment(Type type){
     switch (type){
         case CARRIER:
             return 5;
-        case 'S':
+        case SUBMARINE:
             return 2;
-        case 'B':
+        case BATTLESHIP:
             return 4;
-        case 'C':
+        case CRUISER:
             return 3;
-        case 'D':
+        case DESTROYER:
             return 3;
         default:
             std::cout << "not a ship type" << std::endl;
@@ -183,97 +183,105 @@ int Production:: getCompartment(Type type){
     return -1;
 }
 Type Production:: randShipType(){
-    int choose = rand()%6;
+    int choose = rand()%5;
+    Type randType = EMPTY;
     switch(choose){
         case 0:
-            return CARRIER;
+            randType = CARRIER;
+            break;
         case 1:
-            return SUBMARINE;
+            randType = SUBMARINE;
+            break;
         case 2:
-            return BATTLESHIP;
+            randType = BATTLESHIP;
+            break;
         case 3:
-            return CRUISER;
+            randType = CRUISER;
+            break;
         case 4:
-            return DESTROYER;
-        default:
-            return EMPTY;
+            randType = DESTROYER;
+            break;
+    }
+    return randType;
+}
+void Production::getHumanSetup(Seas* Cs) {
+    //get from the human, where they want to place their ships
+    Pair *coordinate = new Pair();
+    coordinate->col = -1;
+    coordinate->row = -1;
+    char shipInput = ' ';
+    Cs->displaySeas(true);
+    bool keepPlacing = true;
+    while (keepPlacing) {
+        puts("We're placing the battleship now, which kind of ship do you want to place: ");
+        fflush(stdin);
+        bool keepGetType = true;
+        Type shipType = EMPTY;
+        while(keepGetType){
+            std::cout << "A/Carrier S/Submarine B/Battleship C/Cruiser D/destroyer : " << scanf("%c", &shipInput)<< std::endl;
+            fflush(stdin);
+            shipType = toType(shipInput);
+            Type empty = EMPTY;
+            if(shipType != empty){
+                keepGetType = false;
+            }
+        }
+        bool horizontal = getYesNo("Is this ship horizontal?");
+        bool keepInput = true;
+        while (keepInput) {
+            bool keepAsk = true;
+            while(keepAsk){
+                fflush(stdin);
+                std::cout<<"please provide row: "<<scanf("%d",&coordinate->row)<<std::endl;
+                std::cout<<"please provide column: "<<scanf("%d",&coordinate->col)<<std::endl;
+                fflush(stdin);
+                if(coordinate->row < 8 && coordinate->row > -1 && coordinate->col < 8 && coordinate->col > -1){
+                    if(sea->isEmpty(coordinate,1,horizontal,getCompartment(shipType))){
+                        sea->placeShip(1,horizontal,shipType,coordinate);
+                        keepInput = false;
+                    }else{
+                        puts("place is not enough");
+                    }
+                    keepAsk = false;
+                }else{
+                    puts("battleship need at lest 2 blocks, please enter an valid coordinate");
+                }
+            }
+        }
+        Cs->displaySeas(true);
+        Cs->displayInfo();
+        Location* shipLocation = *sea->getPointer(1,coordinate);
+        Pair* actualCoordinate = shipLocation->getCoordinate();
+        printf("the ship is placed at %d, %d\n",actualCoordinate->row,actualCoordinate->col);
+        keepPlacing = getYesNo("do you place another ship?");
     }
 }
-void Production::getHumanSetup(Seas* Cs)
-{
-	//get from the human, where they want to place their ships
-	Pair* coordinate = new Pair();
-	coordinate->col = -1;
-	coordinate->row = -1;
-	char shipInput = ' ';
-	Cs->displaySeas(true);
-	puts("We're placing the battleship now, which kind of ship do you want to place: ");
-	fflush(stdin);
-	scanf("%c",&shipInput);
-	Type shipType = toType(shipInput);
-	bool horizontal = getYesNo("Is this ship horizontal?");
 
-	if(horizontal)
-	{
-	    bool keep = true;
-	    while(keep){
-            puts("Give the westernmost column (from 0 to 8 inclusive)");
-            scanf("%d", coordinate->col);
-            puts("Give the row");
-            scanf("%d", coordinate->row);
-            if(sea->isEmpty(coordinate,1,horizontal,getCompartment(shipType))){
-                sea->placeShip(1,horizontal,shipType,coordinate);
-                keep = false;
-            }else{
-                std::cout << "area is not enough" <<std::endl;
-            }
-	    }
-
-	}
-	else
-	{
-	    bool keep = true;
-	    while(keep){
-            puts("Give the northernmost row (from 0 to 8 inclusive)");
-            scanf("%d", coordinate->row);
-            puts("Give the column");
-            scanf("%d", coordinate->col);
-            if(sea->isEmpty(coordinate,1,horizontal,getCompartment(shipType))){
-                sea->placeShip(1,horizontal,shipType,coordinate);
-                keep = false;
-            }else{
-                std::cout << "area is not enough" <<std::endl;
-            }
-	    }
-	}
-	Cs->displaySeas(true);
-	Cs->displayInfo();
-}
 
 //TODO doPlacingForHuman
 void Production::doAutoPlacing(Seas* Cs,bool player)
 {
+    printf("auto placing for player%d\n",player);
     srand(time(0));
-    int shipAmount = rand()%6;
+    int shipAmount = rand()%5 + 1;
     for(int i = 0; i < shipAmount; i++){
-        bool keep = true;
-        while(keep){
-            Pair* randCoordinate = new Pair;
-            randCoordinate->row = rand()%10;
-            randCoordinate->col = rand()%10;
-            bool ifHorizontal = rand()%2;
-            Type shipType = randShipType();
-            if(sea->isEmpty(randCoordinate,player,ifHorizontal,getCompartment(shipType))){
-                sea->placeShip(player,ifHorizontal,shipType,randCoordinate);
-                keep = false;
+        Pair* randCoordinate = new Pair;
+        randCoordinate->row = rand()%8;
+        randCoordinate->col = rand()%8;
+        bool ifHorizontal = rand()%2;
+        Type randType = randShipType();
+        bool keepPlacing = true;
+        while(keepPlacing){
+            if(sea->isEmpty(randCoordinate,player,ifHorizontal,getCompartment(randType))){
+                sea->placeShip(player,ifHorizontal,randType,randCoordinate);
+                keepPlacing = false;
+            }else{
+                randCoordinate->row = rand()%8;
+                randCoordinate->col = rand()%8;
+                bool ifHorizontal = rand()%2;
             }
         }
     }
-    if(!player){
-        Cs->displaySeas(true);
-        Cs->displayInfo();
-    }else{
-        Cs->displaySeas(false);
-        Cs->displayInfo();
-    }
+    Cs->displaySeas(true);
+    Cs->displayInfo();
 }

@@ -56,20 +56,18 @@ Location** Seas:: getPointer(bool player, Pair* coordinate){
 }
 
 void Seas:: placeShip(int player, bool ifHorizontal, Type shipType, Pair* coordinate){
+    printf("\n    placing ship at: %d,%d if is horizontal: %d\n",coordinate->row,coordinate->col,ifHorizontal);
     Battleship* newShip = new Battleship(shipType, coordinate);
     *(seasP + actualLocation(player,newShip->getCoordinate())) = newShip;
     int restLength = newShip->getCompartments() - 1;
     Pair nextCoordinate = *coordinate;
     for(int i = 0; i < restLength; i++){
-        printf("current ship coordinate: %d, %d\n", newShip->getCoordinate()->row,newShip->getCoordinate()->col);
         if(ifHorizontal){
             nextCoordinate.row += 1;
         }else{
             nextCoordinate.col += 1;
         }
-        printf("expected next ship coordinate: %d, %d\n", nextCoordinate.row,nextCoordinate.col);
         Battleship* nextShip = new Battleship(shipType,&nextCoordinate);
-        printf("next ship coordinate: %d, %d\n", nextShip->getCoordinate()->row, nextShip->getCoordinate()->col);
         newShip->next = nextShip;
         newShip->next->previous = newShip;
         newShip = newShip->next;
@@ -94,16 +92,25 @@ void Seas:: shot(int player, Pair* coordinate){
 bool Seas:: isEmpty(Pair* start,bool player,bool isHorizontal,int length){
     Pair trackerValue = *start;
     Pair* tracker = &trackerValue;
+    printf("    need Length: %d\n",length);
     for(int i = 0; i < length; i++){
         if(isHorizontal){
-            tracker->row += i;
+            tracker->row ++;
+            puts("row add 1");
         }else{
-            tracker->col += i;
+            tracker->col ++;
+            puts("col add 1");
         }
-        printf("testing coordinate: %d, %d\n",tracker->row, tracker->col);
-        Location* check = *getPointer(player,tracker);
-        printf("is water? : %d\n", check->isWater());
+        printf("tracker: %d, %d \n",tracker->row,tracker->col);
+        Location* check = new Location(tracker);
+        if(tracker->row < 10 && tracker->col < 10){
+            check = *getPointer(player,tracker);
+        }else{
+            printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
+            return false;
+        }
         if(!check->isWater()){
+            printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
             return false;
         }
     }
@@ -112,31 +119,32 @@ bool Seas:: isEmpty(Pair* start,bool player,bool isHorizontal,int length){
 
 void Seas::displaySeas(bool cheat)
 {
-	Location** seasP0 = seasP;  //for player 0
-	Location** seasP1 = seasP+100; //for player 1
-	for(int player = 0; player<2; player++)
+    Location** seasP0 = seasP;  //for player 0
+    Location** seasP1 = seasP+100; //for player 1
+    for(int player = 0; player<2; player++)
 	{
-		for(int row= 0; row<size; row++)
+        printf("player %d.\n", player); fflush(stdout);
+        for(int row= 0; row<size; row++)
 		{
-			for(int col = 0; col<size; col++)
+            for(int col = 0; col<size; col++)
 			{
-				if (player == 1)
+                if (player == 1)
 				{
-					seasP0 = seasP1;
-				}
-				Location** where = seasP0 + row*size+col;
-				Location* x = *where; //take the location pointer from the address we calculated
-				char symbol;
-				if(cheat && row*size+col > 99){
-				    symbol = x->getActualSymbol();
-				}else{
+                    seasP0 = seasP1;
+                }
+                Location** where = seasP0 + row*size+col;
+                Location* x = *where; //take the location pointer from the address we calculated
+                char symbol;
+                bool notWater = !(x->isWater());
+                if(cheat && player == 1 && notWater){
+                    symbol = x->getActualSymbol();
+                }else{
                     symbol = x->getSymbol();
-				}
-				printf("|%c", symbol);
-			}
-			printf("|\n");
-		}
-		printf("Finished player %d.\n", player); fflush(stdout);
+                }
+                printf("|%c", symbol);
+            }
+            printf("|\n");
+        }
 	}
 }
 
