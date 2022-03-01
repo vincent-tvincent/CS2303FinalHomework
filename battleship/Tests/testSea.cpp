@@ -11,7 +11,7 @@ bool testSea:: test(){
     puts("\nprivate functions and accessors will not be tested, DisplayInfo() is directly calling the DisplayInfo for Fleet object, wich is tested elsewhere, thus it will not be test either");
     puts("start test Seas");
     bool ok = false;
-    ok = testPlaceShip() && testShot() && testIsEmpty() && testDisplaySeas();
+    ok = testPlaceShip() && testShotTo() && testIsEmpty() && testDisplaySeas();
     if(ok){
         puts("Seas pass the test");
     }else{
@@ -53,20 +53,20 @@ bool testSea:: testPlaceShip(){
     return ok;
 }
 
-bool testSea:: testShot(){
-    puts("start testing shot()");
+bool testSea:: testShotTo(){
+    puts("start testing shotTo()");
     bool ok = false;
     Seas* testObject = new Seas();
     Pair* testPair = new Pair;
     testPair->row = 0;
     testPair->col = 0;
-    testObject->shot(0,testPair);
+    testObject->shotTo(0,testPair);
     Location* testLocation = *(testObject->getPointer(0,testPair));
     ok = testLocation->getSymbol() == testLocation->getActualSymbol();
     if(ok){
-        puts("shot() pass the test");
+        puts("shotTo() pass the test");
     }else{
-        puts("shot() does not pass the test");
+        puts("shotTo() does not pass the test");
     }
     return ok;
 }
@@ -99,7 +99,7 @@ bool testSea:: testDisplaySeas(){
     Type testType = CARRIER;
     testPair->row = 2;
     testPair->col = 3;
-    testObject->placeShip(0,true,testType,testPair);
+    testObject->placeShip(0,false,testType,testPair);
     testObject->placeShip(1,false,testType,testPair);
     testObject->displaySeas(false);
     puts("\ncheat on: \n");

@@ -15,7 +15,7 @@ public:
     bool test();
     bool testGetPointer();
     bool testPlaceShip();
-    bool testShot();
+    bool testShotTo();
     bool testIsEmpty();
     bool testDisplaySeas();
 

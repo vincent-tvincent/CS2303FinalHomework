@@ -22,9 +22,11 @@ public:
 	void displayInfo();
 	//void takeCoordinates(Pair* pP);
     void placeShip(int Player, bool ifHorizontal, Type shipType, Pair *coordinate);
-    void shot(int player,Pair* coordinate);
+    void shotTo(int player,Pair* coordinate);
     bool isEmpty(Pair* start,bool player,bool isHorizontal,int length);
     Location** getPointer(bool player, Pair* coordinate);
+    bool player0Win();
+    bool player1Win();
 private:
     Fleets* fleet;
     int size;

@@ -68,10 +68,11 @@ bool Production::prod(int argc, char* argv[])
         } else {
             doAutoPlacing(sea, 1);
         }
+        puts("player0 placing");
+        doAutoPlacing(sea,0);
         //display before each turn
         std::cout << "Game is ready for start" << std::endl;
         runGame();
-        sea->displaySeas(false);
         //commence taking turns -- sounds like a while loop, because thi game is guaranteed to end
 
     }
@@ -80,45 +81,57 @@ bool Production::prod(int argc, char* argv[])
 }
 
 void Production:: runGame(){
+    puts("game start");
     bool done = false;
     while(!done) //take turns
     {
+
         if(HumanFirst) //human?
         {
-            Pair* pP = new Pair();
-            //ask the user for coordinates
-            //scanf
-            //double check they are reasonable
-            pP->row = 0;//whatever the user said
-            pP->col = 0;//whatever the user said
-            //tell the seas about the coordinates
-            //sea->takeCoordinates(pP);
-            //Pair* newP = sea->getCoordinates();
-            //find out whether any ship was sunk
-            //find out whether the computer has now lost
-            //if so, done
-            //did we become done?
-            done= true;
+            puts("can display");
+            sea->displaySeas(false);
+            sea->displayInfo();
+            puts("player1's turn\n");
+            fflush(stdin);
+            Pair* target = new Pair;
+            puts("choose target to shot");
+            bool keepRead = true;
+            while(keepRead){
+                std::cout<<"row: "<<scanf("%d",&target->row)<<std::endl;
+                fflush(stdin);
+                std::cout<<"col: "<<scanf("%d",&target->col)<<std::endl;
+                fflush(stdin);
+                if(target->row > 9 || target->col > 9){
+                    puts("coordinate does not exist");
+                }else{
+                    puts("launched");
+                    sea->shotTo(0,target);
+                    keepRead = false;
+                }
+            }
+
         }
-        else
-        {
-            //did we become done?
-            //randomly generate coordinates (will be reasonable)
-            //tell the seas about the coordinates
-            //find out whether any ship was sunk
-            //find out whether the human has now lost
-            //if so, done
-            done=true;
+        else{
+            puts("player0's turn\n");
+            srand(time(0));
+            Pair* target = new Pair;
+            target->row = rand() % 10;
+            target->col = rand() % 10;
+            sea->shotTo(1,target);
         }
         HumanFirst = !HumanFirst;
-
-    }//now done
-
-
+        if(sea->player0Win() || sea->player1Win()){
+            done = true;
+        }
+    }
+    //now done
     //print who won when done
-
-
-}//end of else we have good arguments
+    if(sea->player0Win()){
+        puts("\n*********************\nplayer 0 win the game\n*********************\n");
+    }else if(sea->player1Win()){
+        puts("\n*********************\nplayer 1 win the game\n*********************\n");
+    }
+}
 
 
 bool Production::getYesNo(char const* query)
@@ -210,7 +223,6 @@ void Production::getHumanSetup(Seas* Cs) {
     coordinate->col = -1;
     coordinate->row = -1;
     char shipInput = ' ';
-    Cs->displaySeas(true);
     bool keepPlacing = true;
     while (keepPlacing) {
         puts("We're placing the battleship now, which kind of ship do you want to place: ");
@@ -230,6 +242,7 @@ void Production::getHumanSetup(Seas* Cs) {
         bool keepInput = true;
         while (keepInput) {
             bool keepAsk = true;
+            Cs->displaySeas(true);
             while(keepAsk){
                 fflush(stdin);
                 std::cout<<"please provide row: "<<scanf("%d",&coordinate->row)<<std::endl;
@@ -256,9 +269,6 @@ void Production::getHumanSetup(Seas* Cs) {
         keepPlacing = getYesNo("do you place another ship?");
     }
 }
-
-
-//TODO doPlacingForHuman
 void Production::doAutoPlacing(Seas* Cs,bool player)
 {
     printf("auto placing for player%d\n",player);
@@ -278,7 +288,7 @@ void Production::doAutoPlacing(Seas* Cs,bool player)
             }else{
                 randCoordinate->row = rand()%8;
                 randCoordinate->col = rand()%8;
-                bool ifHorizontal = rand()%2;
+                ifHorizontal = rand()%2;
             }
         }
     }

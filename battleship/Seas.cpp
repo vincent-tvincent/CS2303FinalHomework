@@ -54,9 +54,15 @@ Location** Seas:: getPointer(bool player, Pair* coordinate){
     }
     return seasP + movement;
 }
+bool Seas::player0Win(){
+    return fleet->playerLost(1);
+}
 
+bool Seas::player1Win(){
+    return fleet->playerLost(0);
+}
 void Seas:: placeShip(int player, bool ifHorizontal, Type shipType, Pair* coordinate){
-    printf("\n    placing ship at: %d,%d if is horizontal: %d\n",coordinate->row,coordinate->col,ifHorizontal);
+    //printf("\n    placing ship at: %d,%d if is horizontal: %d\n",coordinate->row,coordinate->col,ifHorizontal);
     Battleship* newShip = new Battleship(shipType, coordinate);
     *(seasP + actualLocation(player,newShip->getCoordinate())) = newShip;
     int restLength = newShip->getCompartments() - 1;
@@ -77,7 +83,7 @@ void Seas:: placeShip(int player, bool ifHorizontal, Type shipType, Pair* coordi
     fleet->addShip(player,shipType);
 }
 
-void Seas:: shot(int player, Pair* coordinate){
+void Seas:: shotTo(int player, Pair* coordinate){
     Location* target = *(seasP + actualLocation(player,coordinate));
     target->getShot();
     bool sink = false;
@@ -92,25 +98,23 @@ void Seas:: shot(int player, Pair* coordinate){
 bool Seas:: isEmpty(Pair* start,bool player,bool isHorizontal,int length){
     Pair trackerValue = *start;
     Pair* tracker = &trackerValue;
-    printf("    need Length: %d\n",length);
+    //printf("    need Length: %d\n",length);
     for(int i = 0; i < length; i++){
         if(isHorizontal){
             tracker->row ++;
-            puts("row add 1");
         }else{
             tracker->col ++;
-            puts("col add 1");
         }
-        printf("tracker: %d, %d \n",tracker->row,tracker->col);
+        //printf("tracker: %d, %d \n",tracker->row,tracker->col);
         Location* check = new Location(tracker);
         if(tracker->row < 10 && tracker->col < 10){
             check = *getPointer(player,tracker);
         }else{
-            printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
+            //printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
             return false;
         }
         if(!check->isWater()){
-            printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
+            //printf("\n!!!!!!!!!!!!!!!!\nblock invalid: %d, %d\n!!!!!!!!!!!!!!!!\n",tracker->row,tracker->col);
             return false;
         }
     }
@@ -136,7 +140,7 @@ void Seas::displaySeas(bool cheat)
                 Location* x = *where; //take the location pointer from the address we calculated
                 char symbol;
                 bool notWater = !(x->isWater());
-                if(cheat && player == 1 && notWater){
+                if(cheat &&player == 1&& notWater){
                     symbol = x->getActualSymbol();
                 }else{
                     symbol = x->getSymbol();

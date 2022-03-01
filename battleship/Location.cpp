@@ -40,6 +40,11 @@ Pair* Location:: getCoordinate(){
 void Location:: getShot(){
     hasBeenShot = true;
     symbol = actualSymbol;
+    if(isWater()){
+        puts("\n-----------\n| miss :( |\n-----------\n");
+    }else{
+        puts("\n-----------------\n| hit target :) |\n-----------------\n");
+    }
 }
 
 bool Location:: isWater(){
