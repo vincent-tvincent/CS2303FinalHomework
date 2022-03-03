@@ -48,10 +48,8 @@ void matrix::onlyPrintBoard() {
 	int* tracker = board;
 	int endPoint = rowLength * colLength;
 	for (int i = 0; i < endPoint; i++) {   
-		printf("%d ", *tracker);
-		if ((i+1) % colLength == 0) {
-		puts("\n");
-		}
+        printf("%d ", *tracker);
+        if ((i+1) % colLength == 0) puts("\n");
 		tracker++;
 	}
 }
