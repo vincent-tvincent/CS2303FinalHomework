@@ -4,16 +4,17 @@
 
 #ifndef CS2303FINALHOMEWORK_QUEUE_H
 #define CS2303FINALHOMEWORK_QUEUE_H
-#include "singleLinkedList.h"
+#include "LinkedList.h"
+#include<iostream>
 class queue {
 public:
     queue();
+    virtual ~queue();
     void enqueue(int);
     int dequeue(); //dequeue value and return the value dequeued
-    bool ifInclude(int); //check if include certain value
-private:
-    singleLinkedList* start;
-    singleLinkedList* end;
+    int size;
+    LinkedList* start;
+    LinkedList* end;
 };
 
 #endif //CS2303FINALHOMEWORK_QUEUE_H

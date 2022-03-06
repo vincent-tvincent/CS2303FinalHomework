@@ -4,18 +4,19 @@
 
 #include "Robot.h"
 Robot:: Robot(const char* inputFile){
+    printf("input file: %s\n",inputFile);
     FILE* input = fopen(inputFile,"r");
-    int size;
+    int size = -1;
     fscanf(input,"%d", &size);
+    printf(" node amount: %d\n",size);
     map = new adjMatrix(size);
-
     int startRoom = 0;
-    bool isSeparator = false;
+    bool isNumber= true;
     char end = '\n';
     int endRoom = -1;
     char actualSeparator = ' ';
     while(startRoom < size){
-        if(isSeparator){//read value once, then read separator once
+        if(isNumber){//read value once, then read separator once
             fscanf(input,"%d",&endRoom);
             //if reading room, build connection between recent room and read value
             map->connect(startRoom,endRoom);
@@ -23,26 +24,29 @@ Robot:: Robot(const char* inputFile){
             fscanf(input,"%c",&actualSeparator);
             if(actualSeparator == end) {
                 startRoom ++;
-                isSeparator = !isSeparator;
             };//if finish on current room
         }
-        isSeparator = !isSeparator;
+        isNumber = !isNumber;
     }
     fclose(input);
 }
+Robot:: ~Robot(){}
 
 void Robot:: outputPath(const char* outputFile){
+    printf("output file: %s\n", outputFile);
     FILE* output = fopen(outputFile,"w");
-    singleLinkedList* path = map->getPath();
+    queue* path = map->getPath(0);
     int counter = 1;
-    while(path->next != nullptr){
-        fprintf(output," that's the path of the robot: \n");
-        fprintf(output,"room%d --> ",path->value);
+    int currentRoom = path->dequeue();
+    fprintf(output," these are the rooms cleaned by robot in order: \n");
+    while(currentRoom > -1){
+        fprintf(output,"room vacuumed %d --> ",currentRoom);
         if(counter == 5 ){
-            counter = 0;
             fprintf(output,"\n");
+            counter = 0;
         }
-        counter ++;
+        currentRoom = path->dequeue();
+        counter++;
     }
     fclose(output);
 }

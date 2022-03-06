@@ -9,6 +9,7 @@
 class Robot {
 public:
     Robot(const char*);
+    virtual ~Robot();
     void outputPath(const char*); //form the path and write it to given output file;
 private:
     adjMatrix* map;

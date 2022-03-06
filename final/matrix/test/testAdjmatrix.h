@@ -9,6 +9,7 @@
 class testAdjmatrix {
 public:
     testAdjmatrix();
+    virtual ~testAdjmatrix();
     bool test();
     bool testConnect();
     bool testGetPath();

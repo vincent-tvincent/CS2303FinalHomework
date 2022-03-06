@@ -6,11 +6,13 @@
 #define CS2303FINALHOMEWORK_ADJMATRIX_H
 #include "matrix.h"
 #include "linkedList/queue.h"
+#include "linkedList/stack.h"
 class adjMatrix: public matrix{
 public:
     adjMatrix(int);
+    virtual ~adjMatrix();
     void connect(int,int); //add a single connection on matrix
-    singleLinkedList* getPath(int start); //return the longest path can go from given start node
+    queue* getPath(int start); //return the longest path can go from given start node
 private:
     int size;
     bool ifConnect(int,int); // check if the given two node have connection
